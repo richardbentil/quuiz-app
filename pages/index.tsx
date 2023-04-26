@@ -32,25 +32,34 @@ function Home() {
     e.preventDefault();
     console.log(answer);
 
-    setscore((prevScore: number) => prevScore + 10);
+    //check if the answer matches the correct answer from the current question
+    const isCorrect = answer === question?.correctAnswer;
+
+    if (isCorrect) {
+      setscore((prevScore: number) => prevScore + 10);
+    }
   };
 
   return (
     <div>
       <div>
-        <p>Question</p>
+        <p>Question {score}</p>
         <form action="" onSubmit={onSubmit}>
           {question?.id}
-          <label htmlFor="me">
-            <input
-              type="radio"
-              name="answers"
-              id="me"
-              value={"me"}
-              onChange={(e) => setanswer(e.target.value)}
-            />
-             {question?.question}
-          </label>
+          {question?.question}
+          {question?.answers?.map((answer: any) => (
+            <div key={answer?.value} className="form-check form-check-inline">
+              <input
+                type="radio"
+                name="answers"
+                id={answer?.value}
+                value={answer?.text}
+                onChange={(e) => setanswer(e.target.value)}
+              />
+              <label htmlFor={answer?.value}>{answer?.value}</label>
+            </div>
+          ))}
+
           <button type="submit">Submit</button>
         </form>
       </div>
