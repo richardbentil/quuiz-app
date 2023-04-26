@@ -34,6 +34,8 @@ function Home() {
     setscore(0);
   };
 
+  console.log(count, questions?.quizQuestions?.length, allQuestions)
+
   return (
     <div className="container my-5">
       <Score score={score} />

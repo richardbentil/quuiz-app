@@ -21,15 +21,15 @@ export const useQuestions = () => {
   );
 
   const getQuestion = () => {
-    const index = Math.floor(Math.random() * allQuestions.length);
-    const quest: QuestionProps = allQuestions[index];
+    if (allQuestions?.length >>> 1) {
+      const index = Math.floor(Math.random() * allQuestions.length);
+      const quest: QuestionProps = allQuestions[index];
 
-    console.log(allQuestions);
-
-    if (quest?.id) {
       setquestion(quest);
       //remove the selected question from the list of questions
       setAllQuestions(allQuestions?.filter((q: any) => q.id !== quest.id));
+    } else {
+      setquestion(allQuestions[0]);
     }
 
     console.log(allQuestions?.length);
