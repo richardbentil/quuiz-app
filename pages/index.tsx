@@ -38,7 +38,7 @@ function Home() {
     <div className="container my-5">
       <Score score={score} />
 
-      {allQuestions?.length + 1 > 0 && (
+      {allQuestions?.length > 0 && (
         <>
           <h5 className="text-white text-center mb-3">Question</h5>
 
@@ -57,7 +57,7 @@ function Home() {
             <button
               type="submit"
               className="btn btn-light btn-lg"
-              disabled={!answer?.id}
+              disabled={!answer}
             >
               Submit
             </button>
@@ -65,7 +65,7 @@ function Home() {
         </>
       )}
 
-      {allQuestions && allQuestions?.length + 1 === questions?.quizQuestions?.length && (
+      {count === questions?.quizQuestions?.length && (
         <>
           <h5 className="text-center text-white">
             You have scored {score} out of{" "}

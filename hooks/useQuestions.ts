@@ -10,36 +10,30 @@ interface QuestionProps {
 }
 
 export const useQuestions = () => {
-  const [allQuestions, setAllQuestions] = useState<any>([]);
-
-  useEffect(() => {
-    setAllQuestions(questions?.quizQuestions);
-  }, []);
-
   const [question, setquestion] = useState<QuestionProps>({
     id: 0,
     question: "",
     answers: [],
     correctAnswer: "",
   });
+  const [allQuestions, setAllQuestions] = useState<any>(
+    questions?.quizQuestions
+  );
 
-  const getQuestion = useCallback(() => {
-    if (allQuestions?.length > 0) {
-      const index = Math.floor(Math.random() * allQuestions.length);
-      const quest: QuestionProps = allQuestions[index];
+  const getQuestion = () => {
+    const index = Math.floor(Math.random() * allQuestions.length);
+    const quest: QuestionProps = allQuestions[index];
 
-      if (quest?.id) {
-        setquestion(quest);
-        //remove the selected question from the list of questions
-        setAllQuestions(allQuestions?.filter((q: any) => q.id !== quest.id));
-      }
-    } else {
-      setquestion({ id: 0, question: "", answers: [], correctAnswer: "" });
+    console.log(allQuestions);
+
+    if (quest?.id) {
+      setquestion(quest);
+      //remove the selected question from the list of questions
+      setAllQuestions(allQuestions?.filter((q: any) => q.id !== quest.id));
     }
-    console.log(allQuestions?.length);
-  }, [allQuestions]);
 
-  //set random questions
+    console.log(allQuestions?.length);
+  };
   useEffect(() => {
     getQuestion();
   }, []);
