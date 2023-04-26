@@ -9,7 +9,7 @@ function Home() {
   const { questions, allQuestions, question, getQuestion, setAllQuestions } =
     useQuestions();
 
-  const [answer, setanswer] = useState("");
+  const [answer, setanswer] = useState<any>();
   const [score, setscore] = useState(0);
   const [count, setCount] = useState(0);
 
@@ -35,43 +35,51 @@ function Home() {
   };
 
   return (
-    <>
-        <Score score={score} />
+    <div className="container my-5">
+      <Score score={score} />
 
-        {allQuestions?.length + 1 > 0 && (
-          <>
-            <p>Question</p>
+      {allQuestions?.length + 1 > 0 && (
+        <>
+          <h5 className="text-white text-center mb-3">Question</h5>
 
-            <form action="" onSubmit={onSubmit}>
-              <Question question={question} />
-              <div>
-                {question?.answers?.map((answer: any) => (
-                  <Answer
-                    key={answer?.value}
-                    answer={answer}
-                    setanswer={setanswer}
-                  />
-                ))}
-              </div>
-              <button type="submit">Submit</button>
-            </form>
-          </>
-        )}
+          <form action="" onSubmit={onSubmit} className="text-center my-4">
+            <Question question={question} />
+            <div className="my-4">
+              <h5 className="text-white">Choose an answer below</h5>
+              {question?.answers?.map((answer: any) => (
+                <Answer
+                  key={answer?.value}
+                  answer={answer}
+                  setanswer={setanswer}
+                />
+              ))}
+            </div>
+            <button
+              type="submit"
+              className="btn btn-light btn-lg"
+              disabled={!answer?.id}
+            >
+              Submit
+            </button>
+          </form>
+        </>
+      )}
 
-        {allQuestions?.length + 1 == questions?.quizQuestions?.length && (
-          <>
-            <p>
-              You have scored {score} out of{" "}
-              {questions?.quizQuestions?.length * 10}
-            </p>
-            <button onClick={handleReset}>Done, start again</button>
-          </>
-        )}
-        <Footer
-          count={count}
-          questionsCount={questions?.quizQuestions?.length}
-        />
-    </>
+      {allQuestions && allQuestions?.length + 1 === questions?.quizQuestions?.length && (
+        <>
+          <h5 className="text-center text-white">
+            You have scored {score} out of{" "}
+            {questions?.quizQuestions?.length * 10}
+          </h5>
+          <div className="d-flex justify-content-center">
+            <button onClick={handleReset} className="btn btn-success btn-lg">
+              Done, start again
+            </button>
+          </div>
+        </>
+      )}
+      <Footer count={count} questionsCount={questions?.quizQuestions?.length} />
+    </div>
   );
 }
 

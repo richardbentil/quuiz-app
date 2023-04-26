@@ -15,8 +15,13 @@ function Answer({ answer: { text, value }, setanswer }: AnswerProp) {
           id={value}
           value={text}
           onChange={(e) => setanswer(e.target.value)}
+          hidden
         />
-        <label htmlFor={value}>{value}</label>
+        <label htmlFor={value} className="mb-0">
+          <div className="card bg-light border-0 bg-opacity-10">
+            <div className="card-body">{value}</div>
+          </div>
+        </label>
       </div>
     </>
   );

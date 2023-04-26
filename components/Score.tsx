@@ -6,9 +6,9 @@ interface ScoreProp {
 
 function Score({ score }: ScoreProp) {
   return (
-    <>
-      <p>Score {score}</p>
-    </>
+    <div className="d-flex justify-content-end">
+      <p className="d-flex align-items-center"><span className="text-white h4 me-2">Score</span>  <span className="btn btn-light rouned-pill">{score}</span></p>
+    </div>
   );
 }
 
