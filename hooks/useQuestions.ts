@@ -31,8 +31,6 @@ export const useQuestions = () => {
     } else {
       setquestion(allQuestions[0]);
     }
-
-    console.log(allQuestions?.length);
   };
   useEffect(() => {
     getQuestion();

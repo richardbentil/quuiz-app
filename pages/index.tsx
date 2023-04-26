@@ -32,15 +32,14 @@ function Home() {
   const handleReset = () => {
     setAllQuestions(questions?.quizQuestions);
     setscore(0);
+    setCount(0)
   };
-
-  console.log(count, questions?.quizQuestions?.length, allQuestions)
 
   return (
     <div className="container my-5">
       <Score score={score} />
 
-      {allQuestions?.length > 0 && (
+      {count !== 5 && (
         <>
           <h5 className="text-white text-center mb-3">Question</h5>
 
