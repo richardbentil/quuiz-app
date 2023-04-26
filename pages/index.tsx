@@ -1,36 +1,20 @@
-import React, { useEffect, useState } from "react";
-import questions from "../questions.json";
-
-interface QuestionProps {
-  id: number;
-  question: string;
-  answers: any[];
-  correctAnswer: string;
-}
+import React, { useState } from "react";
+import Question from "@/components/Question";
+import Answer from "@/components/Answer";
+import Footer from "@/components/Footer";
+import Score from "@/components/Score";
+import { useQuestions } from "@/hooks/useQuestions";
 
 function Home() {
-  const [question, setquestion] = useState<QuestionProps>({
-    id: 0,
-    question: "",
-    answers: [],
-    correctAnswer: "",
-  });
+  const { questions, allQuestions, question, getQuestion, setAllQuestions } =
+    useQuestions();
+
   const [answer, setanswer] = useState("");
   const [score, setscore] = useState(0);
-
-  //set random questions
-  useEffect(() => {
-    const index = Math.floor(Math.random() * questions?.quizQuestions.length);
-    const quest: QuestionProps = questions?.quizQuestions[index];
-    if (quest?.id) {
-      setquestion(quest);
-    }
-    console.log(index, quest);
-  }, []);
+  const [count, setCount] = useState(0);
 
   const onSubmit = (e: any) => {
     e.preventDefault();
-    console.log(answer);
 
     //check if the answer matches the correct answer from the current question
     const isCorrect = answer === question?.correctAnswer;
@@ -38,32 +22,56 @@ function Home() {
     if (isCorrect) {
       setscore((prevScore: number) => prevScore + 10);
     }
+
+    //increase count
+    setCount((prevCount) => prevCount + 1);
+    //change question when the answer is submitted
+    getQuestion();
+  };
+
+  const handleReset = () => {
+    setAllQuestions(questions?.quizQuestions);
+    setscore(0);
   };
 
   return (
-    <div>
-      <div>
-        <p>Question {score}</p>
-        <form action="" onSubmit={onSubmit}>
-          {question?.id}
-          {question?.question}
-          {question?.answers?.map((answer: any) => (
-            <div key={answer?.value} className="form-check form-check-inline">
-              <input
-                type="radio"
-                name="answers"
-                id={answer?.value}
-                value={answer?.text}
-                onChange={(e) => setanswer(e.target.value)}
-              />
-              <label htmlFor={answer?.value}>{answer?.value}</label>
-            </div>
-          ))}
+    <>
+        <Score score={score} />
 
-          <button type="submit">Submit</button>
-        </form>
-      </div>
-    </div>
+        {allQuestions?.length + 1 > 0 && (
+          <>
+            <p>Question</p>
+
+            <form action="" onSubmit={onSubmit}>
+              <Question question={question} />
+              <div>
+                {question?.answers?.map((answer: any) => (
+                  <Answer
+                    key={answer?.value}
+                    answer={answer}
+                    setanswer={setanswer}
+                  />
+                ))}
+              </div>
+              <button type="submit">Submit</button>
+            </form>
+          </>
+        )}
+
+        {allQuestions?.length + 1 == questions?.quizQuestions?.length && (
+          <>
+            <p>
+              You have scored {score} out of{" "}
+              {questions?.quizQuestions?.length * 10}
+            </p>
+            <button onClick={handleReset}>Done, start again</button>
+          </>
+        )}
+        <Footer
+          count={count}
+          questionsCount={questions?.quizQuestions?.length}
+        />
+    </>
   );
 }
 
